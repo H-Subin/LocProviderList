@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class LocProviderListActivity extends AppCompatActivity implements View.OnClickListener{
+public class LocProviderListActivity extends AppCompatActivity {
     TextView mTextView;
     LocationManager locMgr;
     List<String> locProviders;
@@ -28,18 +28,21 @@ public class LocProviderListActivity extends AppCompatActivity implements View.O
         locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         locProviders = locMgr.getAllProviders();
-        mButton.setOnClickListener(this);
+        mButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String s = "";
+                for(int i =0; i< locProviders.size(); i++){
+                    s += "Loc. Provider: " + locProviders.get(i) + "\n" + "Status: " + locMgr.isProviderEnabled(locProviders.get(i)) + "\n\n";
+
+                }
+                mTextView.setText(s);
+            }
+
+        });
 
     }
 
-    @Override
-    public void onClick(View v) {
-        String s = "";
-        for(int i =0; i< locProviders.size(); i++){
-            s += "Loc. Provider: " + locProviders.get(i) + "\n" + "Status: " + locMgr.isProviderEnabled(locProviders.get(i)) + "\n\n";
 
-        }
-        mTextView.setText(s);
-
-    }
 }
